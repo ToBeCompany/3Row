@@ -16,6 +16,9 @@ fun main() {
         when (readLine()) {
             "1" -> leftToRight(size, pole)
             "2" -> upToDown(size, pole)
+            "3" -> rightToLeft(size, pole)
+            "4" -> downToUp(size, pole)
+
         }
         print(pole)
     }
@@ -25,12 +28,26 @@ private fun upToDown(
     size: Int,
     pole: MutableList<MutableList<Int>>
 ) {
+    for (i in size - 1 downTo 0) {
+        for (j in size - 1 downTo  0) {
+            if (i == 0)
+                pole[i][j] = Random.nextInt(1, 4)
+            else if(pole[i-1][j]!=0)
+                pole[i][j] = pole[i-1][j]
+        }
+    }
+}
+
+private fun downToUp(
+    size: Int,
+    pole: MutableList<MutableList<Int>>
+) {
     for (i in 0 until size) {
-        for (j in 0 until size) {
-            if (i == size - 1)
-                pole[size - 1 - i][j] = Random.nextInt(1, 4)
-            else
-                pole[size - 1 - i][j] = pole[size - i - 2][j]
+        for (j in size - 1 downTo  0) {
+            if (i == size-1)
+                pole[i][j] = Random.nextInt(1, 4)
+            else if (pole[i+1][j]!=0)
+                pole[i][j] = pole[i+1][j]
         }
     }
 }
@@ -60,14 +77,30 @@ private fun leftToRight(
         for (i in size - 1 downTo 0) {
             if (i == 0)
                 it[i] = Random.nextInt(1, 4)
-            else {
-                it[i] = it[i - 1]
+            else if ((it[i-1]!=0)){
+                it[i] = it[i-1]
+            }
+        }
+    }
+}
+
+private fun rightToLeft(
+    size: Int,
+    pole: MutableList<MutableList<Int>>
+) {
+    pole.forEach {
+        for (i in 0 until size) {
+            if (i == size-1)
+                it[i] = Random.nextInt(1, 4)
+            else if ((it[i+1]!=0)){
+                it[i] = it[i+1]
             }
         }
     }
 }
 
 private fun print(pole: MutableList<MutableList<Int>>) {
+    println("------------------")
     for (i in pole.indices) {
         for (j in pole[i].indices)
             if (pole[i][j] > 9) {
@@ -77,5 +110,4 @@ private fun print(pole: MutableList<MutableList<Int>>) {
             }
         println()
     }
-    println("------------------")
 }
